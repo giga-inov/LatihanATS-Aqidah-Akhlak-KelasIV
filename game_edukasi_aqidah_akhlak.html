@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Edukasi Aqidah Akhlak Kelas 4 - Giga Innovation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                        },
+                        quiz: {
+                            blue: '#3b82f6',
+                            purple: '#8b5cf6',
+                            yellow: '#eab308',
+                            orange: '#f97316',
+                        }
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        nunito: ['Nunito', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 50%, #fef3c7 100%);
+            min-height: 100vh;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+        .btn-bounce {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-bounce:hover {
+            transform: translateY(-4px) scale(1.02);
+        }
+        .btn-bounce:active {
+            transform: translateY(2px) scale(0.98);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s infinite ease-in-out;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-certificate, #printable-certificate * {
+                visibility: visible;
+            }
+            #printable-certificate {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased flex flex-col justify-between min-h-screen">
+
+    <!-- Header Navigation -->
+    <header class="w-full bg-white/80 backdrop-blur-md shadow-sm border-b border-emerald-100 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showScreen('screen-welcome')">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white shadow-md shadow-emerald-200">
+                    <i class="fa-solid font-bold text-xl fa-book-quran"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-emerald-800 leading-tight">Aqidah Akhlak Game</h1>
+                    <p class="text-xs text-slate-500 font-semibold">Kelas 4 SD/MI • Giga Innovation</p>
+                </div>
+            </div>
+
+            <!-- Profile / Sound Control -->
+            <div class="flex items-center space-x-3">
+                <button id="btn-sound-toggle" onclick="toggleSound()" class="p-2.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition font-bold text-sm flex items-center gap-2">
+                    <i id="sound-icon" class="fa-solid fa-volume-high text-emerald-600"></i>
+                    <span id="sound-text" class="hidden sm:inline">Suara: ON</span>
+                </button>
+                <div id="user-badge" class="hidden items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl">
+                    <i class="fa-solid fa-circle-user text-emerald-600"></i>
+                    <span id="display-user-name" class="font-bold text-sm text-emerald-900">Siswa</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- SCREEN 1: WELCOME SCREEN -->
+        <section id="screen-welcome" class="space-y-8 animate-fadeIn">
+            <!-- Banner Tagline -->
+            <div class="text-center space-y-4 max-w-2xl mx-auto pt-4">
+                <span class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-800 font-bold text-xs sm:text-sm rounded-full tracking-wide shadow-sm uppercase border border-emerald-200">
+                    <i class="fa-solid fa-sparkles text-amber-500 mr-1.5"></i> Game Pembelajaran Interaktif
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 leading-tight">
+                    "Belajar Tidak Harus Membosankan: <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600">Ubah Soal Menjadi Game</span>"
+                </h2>
+                <p class="text-slate-600 text-base sm:text-lg">
+                    Persiapkan dirimu menghadapi Evaluasi ATS Gasal Aqidah Akhlak Kelas 4. Pelajari materi lengkapnya dan uji kemampuannmu dalam 50 soal petualangan!
+                </p>
+            </div>
+
+            <!-- Card Input Nama & Menu Utama -->
+            <div class="max-w-md mx-auto glass-card rounded-3xl p-6 sm:p-8 shadow-xl shadow-emerald-900/5 relative overflow-hidden border-2 border-emerald-100">
+                <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-200/40 rounded-full blur-2xl"></div>
+                <div class="relative z-10 space-y-6">
+                    <div class="space-y-2">
+                        <label for="student-name" class="block text-sm font-bold text-slate-700">
+                            <i class="fa-solid fa-user-pen text-emerald-600 mr-1"></i> Masukkan Nama Lengkapmu:
+                        </label>
+                        <input type="text" id="student-name" placeholder="Contoh: Ahmad Rizky" 
+                            class="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 font-bold text-slate-800 outline-none transition text-lg bg-white/90">
+                        <p id="name-error" class="text-xs text-rose-500 font-semibold hidden">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Silakan isi nama terlebih dahulu ya!
+                        </p>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        <button onclick="startMaterial()" class="btn-bounce w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-lg rounded-2xl shadow-lg shadow-emerald-500/30 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-book-open text-xl"></i>
+                            <span>Pelajari Materi Lengkap</span>
+                        </button>
+
+                        <button onclick="startQuizDirectly()" class="btn-bounce w-full py-4 px-6 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-extrabold text-lg rounded-2xl shadow-lg shadow-amber-500/30 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-gamepad text-xl"></i>
+                            <span>Mulai Game Kuis (50 Soal)</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+                <div class="glass-card p-5 rounded-2xl border border-white/80 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl shrink-0 font-bold">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Materi Sesuai Kisi-Kisi</h3>
+                        <p class="text-xs text-slate-600 mt-1">Pengertian Nabi/Rasul, Perbedaan, Sifat Wajib & Mustahil lengkap dengan artinya.</p>
+                    </div>
+                </div>
+                <div class="glass-card p-5 rounded-2xl border border-white/80 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl shrink-0 font-bold">
+                        <i class="fa-solid fa-bullhorn"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Suara Menyebut Nama</h3>
+                        <p class="text-xs text-slate-600 mt-1">Sistem audio pintar yang menyapa dan menyebut nama siswa secara langsung.</p>
+                    </div>
+                </div>
+                <div class="glass-card p-5 rounded-2xl border border-white/80 shadow-sm flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0 font-bold">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Sertifikat Kelulusan</h3>
+                        <p class="text-xs text-slate-600 mt-1">Dapatkan sertifikat resmi dari pengembang Giga Innovation setelah selesai kuis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: MATERI PEMBELAJARAN LENGKAP -->
+        <section id="screen-material" class="hidden space-y-6 animate-fadeIn">
+            <!-- Header Materi -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-card p-6 rounded-3xl border border-emerald-200">
+                <div>
+                    <span class="text-xs font-bold text-emerald-700 uppercase tracking-widest">Rangkuman Kisi-Kisi ATS Gasal</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800">Materi Aqidah Akhlak Kelas 4</h2>
+                    <p class="text-slate-600 text-sm mt-1">Pahami materi di bawah ini sebelum memulai game kuis 50 soal!</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="readCurrentMaterialVoice()" class="btn-bounce px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow-md flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-volume-high"></i> Bacakan Materi
+                    </button>
+                    <button onclick="startQuizFromMaterial()" class="btn-bounce px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-xl shadow-md flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-play"></i> Mulai Kuis Soal
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs Materi -->
+            <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-2">
+                <button onclick="switchMaterialTab('tab1')" id="tab-btn-tab1" class="material-tab-btn px-4 py-2 rounded-xl font-bold text-sm bg-emerald-600 text-white shadow">
+                    1. Nabi & Rasul
+                </button>
+                <button onclick="switchMaterialTab('tab2')" id="tab-btn-tab2" class="material-tab-btn px-4 py-2 rounded-xl font-bold text-sm bg-white text-slate-600 hover:bg-slate-100">
+                    2. Perbedaan Nabi & Rasul
+                </button>
+                <button onclick="switchMaterialTab('tab3')" id="tab-btn-tab3" class="material-tab-btn px-4 py-2 rounded-xl font-bold text-sm bg-white text-slate-600 hover:bg-slate-100">
+                    3. Sifat Wajib
+                </button>
+                <button onclick="switchMaterialTab('tab4')" id="tab-btn-tab4" class="material-tab-btn px-4 py-2 rounded-xl font-bold text-sm bg-white text-slate-600 hover:bg-slate-100">
+                    4. Sifat Mustahil
+                </button>
+            </div>
+
+            <!-- Material Tab Contents -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 min-h-[400px]">
+                
+                <!-- TAB 1: Pengertian Nabi dan Rasul -->
+                <div id="material-content-tab1" class="material-content space-y-6">
+                    <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-star-and-crescent"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800">1. Pengertian Nabi dan Rasul</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-2xl border border-emerald-200 space-y-3">
+                            <div class="inline-block px-3 py-1 bg-emerald-600 text-white font-bold text-xs rounded-full">Pengertian Nabi</div>
+                            <h4 class="text-lg font-bold text-emerald-900">Siapakah Nabi Itu?</h4>
+                            <p class="text-slate-700 text-sm leading-relaxed">
+                                <strong>Nabi</strong> secara bahasa berasal dari kata <em>Naba'a</em> yang artinya berita. 
+                                Menurut istilah, <strong>Nabi</strong> adalah seorang laki-laki pilihan Allah SWT yang diberi wahyu untuk <strong>dirinya sendiri</strong> dan <strong>TIDAK WAJIB</strong> menyampaikannya kepada umatnya.
+                            </p>
+                            <ul class="text-xs text-emerald-800 space-y-1 list-disc pl-4 pt-2">
+                                <li>Menerima wahyu dari Allah SWT.</li>
+                                <li>Hanya untuk diamalkan sendiri.</li>
+                                <li>Jumlah nabi sangat banyak (124.000 nabi).</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-200 space-y-3">
+                            <div class="inline-block px-3 py-1 bg-blue-600 text-white font-bold text-xs rounded-full">Pengertian Rasul</div>
+                            <h4 class="text-lg font-bold text-blue-900">Siapakah Rasul Itu?</h4>
+                            <p class="text-slate-700 text-sm leading-relaxed">
+                                <strong>Rasul</strong> secara bahasa berarti utusan. 
+                                Menurut istilah, <strong>Rasul</strong> adalah seorang laki-laki pilihan Allah SWT yang diberi wahyu dan <strong>WAJIB Menyampaikannya</strong> kepada seluruh umat manusia.
+                            </p>
+                            <ul class="text-xs text-blue-800 space-y-1 list-disc pl-4 pt-2">
+                                <li>Menerima wahyu dari Allah SWT.</li>
+                                <li><strong>Wajib dakwah</strong> / menyampaikan wahyu kepada umat.</li>
+                                <li>Jumlah Nabi dan Rasul yang wajib diketahui ada <strong>25 Nabi dan Rasul</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Perbedaan Nabi dan Rasul -->
+                <div id="material-content-tab2" class="material-content hidden space-y-6">
+                    <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-code-compare"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800">2. Perbedaan Nabi dan Rasul</h3>
+                    </div>
+
+                    <p class="text-slate-600 text-sm">
+                        Setiap Rasul pasti seorang Nabi, tetapi seorang Nabi belum tentu seorang Rasul. Berikut adalah tabel perbedaan utamanya:
+                    </p>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm border-collapse rounded-2xl overflow-hidden shadow-sm">
+                            <thead>
+                                <tr class="bg-emerald-700 text-white font-bold">
+                                    <th class="p-4 border-b">Poin Perbedaan</th>
+                                    <th class="p-4 border-b">Nabi</th>
+                                    <th class="p-4 border-b">Rasul</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr>
+                                    <td class="p-4 font-bold text-slate-700 bg-slate-50">Kewajiban Dakwah</td>
+                                    <td class="p-4 text-slate-600">Tidak wajib menyampaikan wahyu kepada umat</td>
+                                    <td class="p-4 font-semibold text-emerald-700">Wajib menyampaikan wahyu kepada umatnya</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-bold text-slate-700 bg-slate-50">Kitab Suci / Syariat</td>
+                                    <td class="p-4 text-slate-600">Melanjutkan syariat rasul sebelumnya</td>
+                                    <td class="p-4 font-semibold text-emerald-700">Membawa syariat / kitab baru bagi umatnya</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-bold text-slate-700 bg-slate-50">Tingkatan / Kedudukan</td>
+                                    <td class="p-4 text-slate-600">Lingkup tugas lebih terbatas</td>
+                                    <td class="p-4 font-semibold text-emerald-700">Setiap Rasul pasti seorang Nabi</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-bold text-slate-700 bg-slate-50">Jumlah yang Wajib Diketahui</td>
+                                    <td class="p-4 text-slate-600">Sangat banyak (25 di antaranya rasul)</td>
+                                    <td class="p-4 font-semibold text-emerald-700">25 Nabi & Rasul wajib kita ketahui</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: Sifat Wajib bagi Nabi dan Rasul -->
+                <div id="material-content-tab3" class="material-content hidden space-y-6">
+                    <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-check-double"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800">3. Sifat Wajib Bagi Nabi dan Rasul</h3>
+                    </div>
+
+                    <p class="text-slate-600 text-sm">
+                        Sifat wajib adalah sifat yang <strong>pasti ada dan dimiliki</strong> oleh para Nabi dan Rasul Allah. Ada 4 sifat wajib utama:
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-5 rounded-2xl bg-emerald-50 border-2 border-emerald-200 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-lg text-emerald-900">1. Siddiq (الصِّدْقُ)</span>
+                                <span class="px-2.5 py-1 bg-emerald-200 text-emerald-800 font-extrabold text-xs rounded-lg">Jujur / Benar</span>
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Nabi dan Rasul selalu jujur dalam perkataan maupun perbuatan. Mereka tidak pernah berbohong seumur hidupnya.
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-blue-50 border-2 border-blue-200 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-lg text-blue-900">2. Amanah (الأَمَانَةُ)</span>
+                                <span class="px-2.5 py-1 bg-blue-200 text-blue-800 font-extrabold text-xs rounded-lg">Dapat Dipercaya</span>
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Rasul selalu menjaga tugas dan amanah dari Allah SWT tanpa pernah mengkhianati kepercayaan tersebut.
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-purple-50 border-2 border-purple-200 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-lg text-purple-900">3. Tabligh (التَّبْلِيْغُ)</span>
+                                <span class="px-2.5 py-1 bg-purple-200 text-purple-800 font-extrabold text-xs rounded-lg">Menyampaikan</span>
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Rasul wajib menyampaikan seluruh perintah dan wahyu Allah kepada umat tanpa ada yang disembunyikan sedikit pun.
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-amber-50 border-2 border-amber-200 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-lg text-amber-900">4. Fathanah (الفَطَانَةُ)</span>
+                                <span class="px-2.5 py-1 bg-amber-200 text-amber-800 font-extrabold text-xs rounded-lg">Cerdas / Cendekia</span>
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Para Rasul memiliki kecerdasan yang tinggi untuk berargumen, memimpin umat, dan menyelesaikan masalah.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: Sifat Mustahil bagi Nabi dan Rasul -->
+                <div id="material-content-tab4" class="material-content hidden space-y-6">
+                    <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+                        <div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800">4. Sifat Mustahil Bagi Nabi dan Rasul</h3>
+                    </div>
+
+                    <p class="text-slate-600 text-sm">
+                        Sifat mustahil adalah sifat yang <strong>TIDAK MUNGKIN ada</strong> pada diri Nabi dan Rasul. Sifat mustahil merupakan kebalikan dari sifat wajib:
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-5 rounded-2xl bg-rose-50 border-2 border-rose-200 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-lg text-rose-900">1. Kizib (الكِذْبُ)</span>
+                                <span class="px-2.5 py-1 bg-rose-200 text-rose-800 font-extrabold text-xs rounded-lg">Berdusta / Bohong</span>
+                            </div>
+                            <p class="text-xs text-slate-700">Kebalikan dari <strong>Siddiq</strong>. Mustahil seorang rasul berkata bohong.</p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-orange-50 border-2 border-orange-200 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-lg text-orange-900">2. Khiyanat (الخِيَانَةُ)</span>
+                                <span class="px-2.5 py-1 bg-orange-200 text-orange-800 font-extrabold text-xs rounded-lg">Khianat / Vole</span>
+                            </div>
+                            <p class="text-xs text-slate-700">Kebalikan dari <strong>Amanah</strong>. Mustahil seorang rasul mengkhianati amanah.</p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-slate-100 border-2 border-slate-200 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-lg text-slate-900">3. Kitman (الكِتْمَانُ)</span>
+                                <span class="px-2.5 py-1 bg-slate-200 text-slate-800 font-extrabold text-xs rounded-lg">Menyembunyikan</span>
+                            </div>
+                            <p class="text-xs text-slate-700">Kebalikan dari <strong>Tabligh</strong>. Mustahil seorang rasul menyembunyikan wahyu.</p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-amber-50 border-2 border-amber-300 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-lg text-amber-900">4. Baladah (البَلَادَةُ)</span>
+                                <span class="px-2.5 py-1 bg-amber-200 text-amber-900 font-extrabold text-xs rounded-lg">Bodoh / Dungut</span>
+                            </div>
+                            <p class="text-xs text-slate-700">Kebalikan dari <strong>Fathanah</strong>. Mustahil seorang rasul bersifat bodoh.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SCREEN 3: GAME KUIS (50 SOAL) -->
+        <section id="screen-quiz" class="hidden space-y-5 animate-fadeIn">
+            <!-- Game Top Bar -->
+            <div class="glass-card p-4 rounded-2xl flex items-center justify-between gap-3 shadow-md border border-emerald-100">
+                <button onclick="confirmReturnToMaterial()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm rounded-xl transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Kembali ke Materi</span>
+                </button>
+
+                <div class="flex items-center space-x-3">
+                    <div class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-lg font-bold text-xs sm:text-sm">
+                        Soal <span id="quiz-current-num" class="text-emerald-700 font-extrabold">1</span> / 50
+                    </div>
+                    <div class="px-3 py-1 bg-amber-100 text-amber-800 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1">
+                        <i class="fa-solid fa-trophy text-amber-600"></i> Skor: <span id="quiz-score" class="text-amber-700 font-extrabold">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden shadow-inner">
+                <div id="quiz-progress" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full w-[2%] transition-all duration-300"></div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-lg relative border-2 border-emerald-100 space-y-6">
+                <!-- Topic Tag & Voice Read Question -->
+                <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                    <span id="quiz-category-tag" class="px-3 py-1 bg-blue-100 text-blue-800 font-extrabold text-xs rounded-full">
+                        Pengertian Nabi dan Rasul
+                    </span>
+                    <button onclick="speakCurrentQuestion()" class="p-2 text-purple-600 hover:bg-purple-50 rounded-xl transition font-bold text-xs flex items-center gap-1">
+                        <i class="fa-solid fa-volume-high text-base"></i> Putar Suara Soal
+                    </button>
+                </div>
+
+                <!-- Text Soal -->
+                <h3 id="quiz-question-text" class="text-lg sm:text-2xl font-bold text-slate-800 leading-snug">
+                    Memuat pertanyaan...
+                </h3>
+
+                <!-- Pilihan Jawaban A, B, C, D -->
+                <div id="quiz-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    <!-- Dynamic Options Inserted Here -->
+                </div>
+
+                <!-- Feedback & Pembahasan Box -->
+                <div id="quiz-feedback-box" class="hidden p-4 rounded-2xl border-2 space-y-2 animate-fadeIn">
+                    <div class="flex items-center gap-2 font-extrabold text-base" id="feedback-title">
+                        <!-- Correct/Incorrect Icon & Title -->
+                    </div>
+                    <p id="feedback-explanation" class="text-xs sm:text-sm leading-relaxed text-slate-700">
+                        <!-- Explanation -->
+                    </p>
+                </div>
+
+                <!-- Next Button -->
+                <div class="flex justify-end pt-2">
+                    <button id="btn-next-question" onclick="nextQuestion()" disabled class="btn-bounce px-6 py-3 bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-700 text-white font-extrabold rounded-xl shadow-md flex items-center gap-2 text-sm sm:text-base">
+                        <span>Soal Berikutnya</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: HASIL & SERTIFIKAT KELULUSAN -->
+        <section id="screen-result" class="hidden space-y-8 animate-fadeIn">
+            <!-- Congratulation Banner -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 text-center space-y-4 border-2 border-amber-200 bg-gradient-to-b from-amber-50/50 to-white">
+                <div class="w-20 h-20 mx-auto rounded-full bg-amber-100 text-amber-500 flex items-center justify-center text-4xl shadow-inner animate-pulse-slow">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Selamat! Game Kuis Selesai!</h2>
+                <p id="result-user-greeting" class="text-slate-600 text-base sm:text-lg">
+                    Hebat sekali, <strong id="res-name-display" class="text-emerald-700">Siswa</strong>! Kamu telah menyelesaikan 50 soal evaluasi Aqidah Akhlak.
+                </p>
+
+                <!-- Score Stats Card -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto pt-4">
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
+                        <span class="text-xs font-bold text-slate-500 block">NILAI AKHIR</span>
+                        <span id="res-score-number" class="text-3xl font-extrabold text-emerald-600">0</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
+                        <span class="text-xs font-bold text-slate-500 block">JAWABAN BENAR</span>
+                        <span id="res-correct-count" class="text-3xl font-extrabold text-blue-600">0</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
+                        <span class="text-xs font-bold text-slate-500 block">JAWABAN SALAH</span>
+                        <span id="res-wrong-count" class="text-3xl font-extrabold text-rose-500">0</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
+                        <span class="text-xs font-bold text-slate-500 block">PREDIKAT</span>
+                        <span id="res-grade-text" class="text-xl font-extrabold text-purple-600">Sangat Baik</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
+                    <button onclick="printCertificate()" class="btn-bounce px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-extrabold rounded-xl shadow-lg flex items-center gap-2">
+                        <i class="fa-solid fa-print"></i> Cetak / Simpan Sertifikat
+                    </button>
+                    <button onclick="restartQuiz()" class="btn-bounce px-6 py-3 bg-slate-700 hover:bg-slate-800 text-white font-bold rounded-xl shadow-md flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> Coba Main Lagi
+                    </button>
+                </div>
+            </div>
+
+            <!-- SERTIFIKAT OFFICIAL (PRINTABLE AREA) -->
+            <div id="printable-certificate" class="bg-white p-8 sm:p-12 rounded-3xl border-8 border-emerald-700 shadow-2xl relative overflow-hidden my-8 max-w-4xl mx-auto font-serif">
+                <!-- Certificate Border Ornaments -->
+                <div class="absolute top-2 left-2 w-16 h-16 border-t-4 border-l-4 border-amber-500"></div>
+                <div class="absolute top-2 right-2 w-16 h-16 border-t-4 border-r-4 border-amber-500"></div>
+                <div class="absolute bottom-2 left-2 w-16 h-16 border-b-4 border-l-4 border-amber-500"></div>
+                <div class="absolute bottom-2 right-2 w-16 h-16 border-b-4 border-r-4 border-amber-500"></div>
+
+                <div class="text-center space-y-6 relative z-10 py-6">
+                    <!-- Header -->
+                    <div class="space-y-1 font-sans">
+                        <h4 class="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-emerald-800">GIGA INNOVATION EDUCATIONAL CERTIFICATE</h4>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold text-amber-600 uppercase tracking-wide font-fredoka">SERTIFIKAT KELULUSAN</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 font-semibold">Evaluasi Pembelajaran Interaktif Aqidah Akhlak Kelas 4 SD/MI</p>
+                    </div>
+
+                    <div class="w-32 h-1 bg-amber-400 mx-auto"></div>
+
+                    <!-- Body -->
+                    <div class="space-y-3 font-sans">
+                        <p class="text-sm text-slate-600 italic">Diberikan secara bangga kepada:</p>
+                        <h3 id="cert-student-name" class="text-2xl sm:text-4xl font-bold text-slate-900 border-b-2 border-slate-300 inline-block px-8 py-1 uppercase">
+                            NAMA SISWA
+                        </h3>
+                        <p class="text-sm sm:text-base text-slate-700 max-w-2xl mx-auto leading-relaxed pt-2">
+                            Telah berhasil menyelesaikan Game Kuis Evaluasi ATS Gasal Materi <strong>Nabi & Rasul, Sifat Wajib, dan Sifat Mustahil</strong> sebanyak 50 Soal dengan hasil:
+                        </p>
+                    </div>
+
+                    <!-- Score Badge in Cert -->
+                    <div class="inline-flex items-center gap-6 bg-slate-50 border-2 border-amber-300 px-6 py-3 rounded-2xl font-sans">
+                        <div>
+                            <span class="text-xs font-bold text-slate-500 block">NILAI KUIS</span>
+                            <span id="cert-score" class="text-2xl font-extrabold text-emerald-700">100</span>
+                        </div>
+                        <div class="w-px h-8 bg-slate-300"></div>
+                        <div>
+                            <span class="text-xs font-bold text-slate-500 block">PREDIKAT</span>
+                            <span id="cert-predicate" class="text-xl font-bold text-amber-600">ISTIMEWA</span>
+                        </div>
+                    </div>
+
+                    <!-- Signatures -->
+                    <div class="grid grid-cols-2 gap-8 pt-8 font-sans text-xs sm:text-sm">
+                        <div class="text-center">
+                            <p class="text-slate-500">Tanggal Selesai</p>
+                            <p id="cert-date" class="font-bold text-slate-800 mt-1">13 September 2026</p>
+                            <div class="h-12"></div>
+                            <p class="font-bold text-slate-700">Siswa Pembelajar</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-slate-500">Pengembang Game</p>
+                            <div class="h-10 flex items-center justify-center text-emerald-700 font-extrabold text-base italic">
+                                Giga Innovation
+                            </div>
+                            <p class="font-bold text-slate-800">GIGA INNOVATION</p>
+                            <p class="text-xs text-slate-500">WA: 081329200985</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-white/80 border-t border-slate-200 py-4 text-center text-xs text-slate-500 font-medium">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p>© 2026 Aqidah Akhlak Kelas 4. Developed by <strong class="text-emerald-700">Giga Innovation</strong>.</p>
+            <p><i class="fa-brands fa-whatsapp text-emerald-600 mr-1"></i> Kontak / CS: <a href="https://wa.me/6281329200985" target="_blank" class="font-bold text-slate-700 underline">081329200985</a></p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- APP STATE ---
+        let studentName = "";
+        let soundEnabled = true;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        let userAnswers = [];
+        let synth = window.speechSynthesis;
+
+        // --- 50 SOAL AKHLAK KELAS 4 BASED ON KISI-KISI ---
+        const quizQuestions = [
+            // TOPIC 1: Pengertian Nabi dan Rasul (Soal 1-12)
+            {
+                q: "Secara bahasa, kata 'Nabi' berasal dari kata 'Naba'a' yang memiliki arti...",
+                options: ["Utusan", "Berita / Kabar", "Pemimpin", "Penerjemah"],
+                ans: 1,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Kata Nabi berasal dari Naba'a yang berarti berita atau kabar."
+            },
+            {
+                q: "Seorang laki-laki pilihan Allah yang menerima wahyu untuk dirinya sendiri dan tidak wajib menyampaikannya kepada umat dinamakan...",
+                options: ["Rasul", "Malaikat", "Nabi", "Wali"],
+                ans: 2,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Nabi menerima wahyu untuk diamalkan sendiri dan tidak wajib disampaikannya ke umat."
+            },
+            {
+                q: "Kata 'Rasul' secara bahasa memiliki arti...",
+                options: ["Utusan", "Pemberi Berita", "Pemberani", "Orang Suci"],
+                ans: 0,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Rasul berasal dari kata irsal yang secara bahasa berarti utusan."
+            },
+            {
+                q: "Manusia pilihan Allah yang menerima wahyu dan WAJIB menyampaikannya kepada seluruh umat manusia disebut...",
+                options: ["Nabi", "Rasul", "Ulama", "Kyai"],
+                ans: 1,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Rasul adalah utusan Allah yang wajib menyampaikan wahyu (berdakwah) kepada umatnya."
+            },
+            {
+                q: "Berapakah jumlah Nabi dan Rasul yang WAJIB kita ketahui dan imani?",
+                options: ["10", "25", "99", "114"],
+                ans: 1,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Umat Islam wajib mengetahui dan mengimani 25 Nabi dan Rasul."
+            },
+            {
+                q: "Jumlah nabi seluruhnya sangat banyak, namun nabi pertama yang diciptakan Allah adalah Nabi...",
+                options: ["Nabi Muhammad SAW", "Nabi Ibrahim AS", "Nabi Adam AS", "Nabi Nuh AS"],
+                ans: 2,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Nabi Adam AS adalah nabi pertama sekaligus manusia pertama di bumi."
+            },
+            {
+                q: "Nabi terakhir yang diutus oleh Allah SWT sekaligus penutup para nabi (Khatamul Anbiya') adalah Nabi...",
+                options: ["Nabi Isa AS", "Nabi Musa AS", "Nabi Ibrahim AS", "Nabi Muhammad SAW"],
+                ans: 3,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Nabi Muhammad SAW adalah penutup para Nabi dan Rasul (Khatamul Anbiya')."
+            },
+            {
+                q: "Mengimani Nabi dan Rasul Allah merupakan rukun iman yang ke-...",
+                options: ["Ke-3", "Ke-4", "Ke-5", "Ke-2"],
+                ans: 1,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Iman kepada Rasul Allah adalah Rukun Iman ke-4."
+            },
+            {
+                q: "Wahyu Allah disampaikan kepada para Nabi dan Rasul melalui perantara malaikat...",
+                options: ["Mikail", "Israfil", "Jibril", "Izrail"],
+                ans: 2,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Malaikat Jibril bertugas menyampaikan wahyu dari Allah SWT."
+            },
+            {
+                q: "Salah satu kriteria atau syarat utama seorang Nabi dan Rasul adalah...",
+                options: ["Seorang laki-laki pilihan", "Seorang yang kaya raya", "Seorang Raja bumi", "Berasal dari bangsa jin"],
+                ans: 0,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Nabi dan Rasul berasal dari kalangan laki-laki pilihan manusia."
+            },
+            {
+                q: "Sikap kita terhadap 25 Nabi dan Rasul yang disebutkan dalam Al-Qur'an adalah...",
+                options: ["Membeda-bedakannya", "Wajib meyakini dan menghormatinya", "Acuh tak acuh", "Hanya menyukai satu nabi"],
+                ans: 1,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Umat Islam wajib meyakini dan menghormati seluruh Nabi dan Rasul Allah."
+            },
+            {
+                q: "Berikut ini yang BUKAN termasuk Nabi yang wajib diketahui adalah...",
+                options: ["Nabi Idris AS", "Nabi Sulaiman AS", "Nabi Luqman Al-Hakim", "Nabi Yunus AS"],
+                ans: 2,
+                cat: "Pengertian Nabi & Rasul",
+                exp: "Luqman Al-Hakim adalah seorang hamba saleh yang bijaksana, bukan tergolong dalam 25 Nabi wajib."
+            },
+
+            // TOPIC 2: Perbedaan Nabi dan Rasul (Soal 13-22)
+            {
+                q: "Pernyataan yang BENAR mengenai perbedaan Nabi dan Rasul adalah...",
+                options: [
+                    "Nabi wajib dakwah, Rasul tidak wajib",
+                    "Setiap Rasul pasti seorang Nabi, tetapi Nabi belum tentu Rasul",
+                    "Jumlah Rasul lebih banyak daripada jumlah Nabi",
+                    "Nabi mendapat kitab suci, Rasul tidak"
+                ],
+                ans: 1,
+                cat: "Perbedaan Nabi & Rasul",
+                exp: "Setiap Rasul pasti seorang Nabi, namun seorang Nabi belum tentu menjadi Rasul."
+            },
+            {
+                q: "Siapakah yang diwajibkan oleh Allah SWT untuk menyampaikan wahyu kepada umatnya?",
+                options: ["Hanya Nabi", "Hanya Rasul", "Semua Manusia", "Malaikat"],
+                ans: 1,
+                cat: "Perbedaan Nabi & Rasul",
+                exp: "Hanya Rasul yang memiliki kewajiban menyampaikan wahyu (dakwah) kepada umat."
+            },
+            {
+                q: "Nabi menerima wahyu dari Allah SWT diperuntukkan untuk...",
+                options: ["Umat seluruh dunia", "Keluarganya saja", "Dirinya sendiri", "Bangsa Jin"],
+                ans: 2,
+                cat: "Perbedaan Nabi & Rasul",
+                exp: "Wahyu yang diterima seorang Nabi diperuntukkan bagi dirinya sendiri."
+            },
+            {
+                q: "Rasul diutus Allah SWT dengan membawa...",
+                options: ["Harta kekayaan", "Syariat baru/Kitab untuk disampaikan", "Senjata perang", "Mahkota emas"],
+                ans: 1,
+                cat: "Perbedaan Nabi & Rasul",
+                exp: "Rasul diutus membawa syariat/kitab suci untuk membimbing umatnya."
+            },
+            {
+                q: "Persamaan antara Nabi dan Rasul adalah...",
+                options: [
+                    "Sama-sama tidak wajib dakwah",
+                    "Sama-sama manusia pilihan yang menerima wahyu Allah",
+                    "Sama-sama membawa kitab suci baru",
+                    "Sama-sama memiliki kitab Taurat"
+                ],
+                ans: 1,
+                cat: "Perbedaan Nabi & Rasul",
+                exp: "Persamaannya adalah Nabi dan Rasul sama-sama hamba pilihan Allah yang menerima wahyu."
+            },
+            {
+                q: "Jika seorang Nabi tidak menyampaikan wahyu kepada orang lain, maka sikap Nabi tersebut...",
+                options: ["Berdosa", "Sesuai dengan perintah Allah", "Sombong", "Salah"],
+                ans: 1,
+                cat: "Perbedaan Nabi & Rasul",
+                exp: "Nabi memang tidak diwajibkan dakwah kepada orang lain, jadi hal itu sesuai aturan Allah."
+            },
+            {
+                q: "Seorang utusan Allah yang memiliki tingkatan paling tinggi dan keteguhan hati luar biasa disebut Rasul...",
+                options: ["Ulul Azmi", "Khulafaur Rasyidin", "Khatamul Anbiya", "Assabiqunal Awwalun"],
+                ans: 0,
+                cat: "Perbedaan Nabi & Rasul",
+                exp: "Rasul yang memiliki ketabahan luar biasa disebut Rasul Ulul Azmi (Nuh, Ibrahim, Musa, Isa, Muhammad)."
+            },
+            {
+                q: "Berikut ini manakah yang merupakan tugas utama seorang Rasul di muka bumi?",
+                options: [
+                    "Mengumpulkan kekayaan bumi",
+                    "Mengajak manusia menyembah Allah SWT semata",
+                    "Membuat hukum manusia",
+                    "Membangun istana megah"
+                ],
+                ans: 1,
+                cat: "Perbedaan Nabi & Rasul",
+                exp: "Tugas utama Rasul adalah mengajak umat tauhid (menyembah hanya kepada Allah SWT)."
+            },
+            {
+                q: "Siapakah di antara berikut ini yang berstatus sebagai Nabi SEKALIGUS Rasul?",
+                options: ["Nabi Musa AS", "Nabi Khidir AS", "Luqman", "Zulkarnain"],
+                ans: 0,
+                cat: "Perbedaan Nabi & Rasul",
+                exp: "Nabi Musa AS adalah seorang Nabi sekaligus Rasul penerima kitab Taurat."
+            },
+            {
+                q: "Dari 25 utusan Allah yang wajib kita ketahui, semuanya berstatus sebagai...",
+                options: ["Hanya Nabi", "Nabi dan Rasul", "Malaikat", "Raja"],
+                ans: 1,
+                cat: "Perbedaan Nabi & Rasul",
+                exp: "25 nama yang kita hapal merupakan 25 Nabi dan Rasul."
+            },
+
+            // TOPIC 3: Sifat Wajib bagi Nabi dan Rasul (Soal 23-36)
+            {
+                q: "Sifat Wajib bagi Nabi dan Rasul artinya adalah sifat yang...",
+                options: ["Boleh ada boleh tidak", "Tidak mungkin dimiliki", "Pasti dimiliki oleh Nabi dan Rasul", "Sifat manusia biasa"],
+                ans: 2,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Sifat wajib adalah sifat yang pasti dan harus ada pada diri para Nabi dan Rasul."
+            },
+            {
+                q: "Berapakah jumlah Sifat Wajib utama bagi Nabi dan Rasul?",
+                options: ["3 Sifat", "4 Sifat", "5 Sifat", "99 Sifat"],
+                ans: 1,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Ada 4 sifat wajib: Siddiq, Amanah, Tabligh, dan Fathanah."
+            },
+            {
+                q: "Sifat wajib Nabi dan Rasul 'Siddiq' (الصِّدْقُ) artinya...",
+                options: ["Menyampaikan", "Dapat Dipercaya", "Jujur / Benar", "Cerdas"],
+                ans: 2,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Siddiq artinya jujur atau benar."
+            },
+            {
+                q: "Sifat wajib 'Amanah' (الأَمَانَةُ) pada diri Nabi dan Rasul berarti...",
+                options: ["Dapat dipercaya", "Cerdas", "Menyampaikan wahyu", "Berdusta"],
+                ans: 0,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Amanah berarti dapat dipercaya."
+            },
+            {
+                q: "Nabi dan Rasul selalu menyampaikan seluruh wahyu Allah tanpa ada yang disembunyikan. Hal ini menunjukkan sifat...",
+                options: ["Siddiq", "Fathanah", "Tabligh", "Amanah"],
+                ans: 2,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Tabligh artinya menyampaikan ajaran/wahyu Allah."
+            },
+            {
+                q: "Sifat wajib 'Fathanah' (الفَطَانَةُ) artinya...",
+                options: ["Jujur", "Dapat dipercaya", "Cerdas / Bijaksana", "Menyampaikan"],
+                ans: 2,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Fathanah artinya cerdas dan bijaksana."
+            },
+            {
+                q: "Nabi Muhammad SAW sejak muda sudah terkenal sangat jujur sehingga diberi gelar...",
+                options: ["Al-Amin", "Al-Farooq", "As-Siddiq", "Saifullah"],
+                ans: 0,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Nabi Muhammad diberi gelar Al-Amin (orang yang dapat dipercaya/jujur)."
+            },
+            {
+                q: "Ketika Nabi Musa berdebat dengan Firaun menggunakan pemikiran cerdas dan mukjizat, beliau menunjukkan sifat wajib...",
+                options: ["Tabligh", "Fathanah", "Siddiq", "Amanah"],
+                ans: 1,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Kecerdasan Nabi Musa dalam berargumen adalah bukti sifat Fathanah."
+            },
+            {
+                q: "Jika seorang siswa selalu berkata apa adanya dan tidak pernah berbohong, ia telah meneladani sifat...",
+                options: ["Fathanah", "Tabligh", "Siddiq", "Amanah"],
+                ans: 2,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Berkata apa adanya adalah bentuk meneladani sifat Siddiq (jujur)."
+            },
+            {
+                q: "Menjaga barang titipan teman dengan baik tanpa merusaknya adalah bentuk meneladani sifat...",
+                options: ["Amanah", "Tabligh", "Fathanah", "Siddiq"],
+                ans: 0,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Menjaga titipan barang adalah pengamalan sifat Amanah (dapat dipercaya)."
+            },
+            {
+                q: "Para Rasul bertugas menyampaikan risalah Islam meski dihalangi oleh kaum musyrikin. Ini bukti sifat...",
+                options: ["Siddiq", "Amanah", "Tabligh", "Fathanah"],
+                ans: 2,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Menyampaikan wahyu meskipun mendapat rintangan adalah pelaksanaan sifat Tabligh."
+            },
+            {
+                q: "Mengapa seorang Rasul harus memiliki sifat Fathanah (Cerdas)?",
+                options: [
+                    "Agar bisa mengalahkan musuh dengan perang saja",
+                    "Untuk dapat membimbing umat dan menjawab tantangan para penentang dakwah",
+                    "Agar dipuji oleh seluruh rakyat",
+                    "Supaya menjadi orang terkelam di dunia"
+                ],
+                ans: 1,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Kecerdasan (Fathanah) diperlukan untuk memimpin umat dan memecahkan permasalahan dakwah."
+            },
+            {
+                q: "Nabi Ibrahim AS mampu meruntuhkan argumentasi Raja Namrud karena beliau dianugerahi kecerdasan yaitu sifat...",
+                options: ["Fathanah", "Tabligh", "Siddiq", "Amanah"],
+                ans: 0,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Kecerdasan berargumen Nabi Ibrahim membuktikan sifat Fathanah."
+            },
+            {
+                q: "Belajar dengan sungguh-sungguh agar menjadi anak yang pandai merupakan contoh perilaku meneladani sifat...",
+                options: ["Siddiq", "Fathanah", "Amanah", "Tabligh"],
+                ans: 1,
+                cat: "Sifat Wajib Nabi & Rasul",
+                exp: "Semangat belajar untuk meraih kecerdasan mengamalkan nilai Fathanah."
+            },
+
+            // TOPIC 4: Sifat Mustahil bagi Nabi dan Rasul (Soal 37-50)
+            {
+                q: "Sifat Mustahil bagi Nabi dan Rasul artinya adalah sifat yang...",
+                options: [
+                    "Wajib ada pada diri Rasul",
+                    "Tidak mungkin dimiliki oleh Nabi dan Rasul",
+                    "Bisa muncul sewaktu-waktu",
+                    "Disukai oleh Allah SWT"
+                ],
+                ans: 1,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Sifat mustahil adalah sifat yang TIDAK MUNGKIN ada pada diri Nabi dan Rasul."
+            },
+            {
+                q: "Kebalikan dari sifat wajib 'Siddiq' (Jujur) adalah sifat mustahil...",
+                options: ["Khiyanat", "Kizib", "Kitman", "Baladah"],
+                ans: 1,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Kizib artinya bohong/dusta, merupakan kebalikan dari Siddiq."
+            },
+            {
+                q: "Sifat mustahil 'Kizib' (الكِذْبُ) memiliki arti...",
+                options: ["Menyembunyikan", "Dusta / Bohong", "Khianat", "Bodoh"],
+                ans: 1,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Kizib artinya berdusta atau berbohong."
+            },
+            {
+                q: "Kebalikan dari sifat wajib 'Amanah' (Dapat Dipercaya) adalah sifat mustahil...",
+                options: ["Khiyanat", "Kitman", "Kizib", "Baladah"],
+                ans: 0,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Khiyanat (Khianat) adalah kebalikan dari Amanah."
+            },
+            {
+                q: "Mustahil bagi seorang Rasul untuk berkhianat atau merusak janji. Sifat khianat ini dinamakan...",
+                options: ["Kitman", "Khiyanat", "Kizib", "Baladah"],
+                ans: 1,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Khiyanat artinya berkhianat atau tidak dapat dipercaya."
+            },
+            {
+                q: "Kebalikan dari sifat wajib 'Tabligh' (Menyampaikan) adalah sifat mustahil...",
+                options: ["Kitman", "Baladah", "Kizib", "Khiyanat"],
+                ans: 0,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Kitman artinya menyembunyikan wahyu."
+            },
+            {
+                q: "Sifat 'Kitman' (الكِتْمَانُ) pada Nabi dan Rasul artinya...",
+                options: ["Berdusta", "Menyembunyikan wahyu", "Bodoh", "Khianat"],
+                ans: 1,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Kitman berarti menyembunyikan ajaran/wahyu dari Allah SWT."
+            },
+            {
+                q: "Kebalikan dari sifat wajib 'Fathanah' (Cerdas) adalah sifat mustahil...",
+                options: ["Baladah", "Kitman", "Khiyanat", "Kizib"],
+                ans: 0,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Baladah artinya bodoh/dungu, kebalikan dari Fathanah."
+            },
+            {
+                q: "Sifat 'Baladah' (البَلَادَةُ) artinya...",
+                options: ["Bodoh / Dungu", "Menyembunyikan", "Pembohong", "Penebar Janji"],
+                ans: 0,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Baladah berarti bodoh atau dungu."
+            },
+            {
+                q: "Seandainya seorang Rasul bersifat Kizib (Bohong), maka akibatnya adalah...",
+                options: [
+                    "Umat akan semakin percaya",
+                    "Ajaran agama tidak akan dipercayai lagi oleh manusia",
+                    "Rasul mendapat pahala",
+                    "Malaikat senang"
+                ],
+                ans: 1,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Jika Rasul bohong, tentu wahyu dan ajaran tidak lagi dipercayai oleh manusia."
+            },
+            {
+                q: "Pasangan sifat wajib dan sifat mustahil berikut yang BENAR adalah...",
+                options: [
+                    "Siddiq - Kitman",
+                    "Amanah - Khiyanat",
+                    "Tabligh - Baladah",
+                    "Fathanah - Kizib"
+                ],
+                ans: 1,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Amanah (Dapat Dipercaya) berlawanan dengan Khiyanat (Berkhianat)."
+            },
+            {
+                q: "Sifat Jaiz bagi Nabi dan Rasul adalah sifat 'Aradul Basyariyah' yang artinya...",
+                options: [
+                    "Sifat yang menyerupai Malaikat",
+                    "Sifat-sifat kemanusiaan seperti makan, minum, dan lelah",
+                    "Sifat Ketuhanan",
+                    "Sifat tidak pernah tidur"
+                ],
+                ans: 1,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Sifat Jaiz Rasul adalah memiliki sifat kemanusiaan biasa yang tidak mengurangi derajat kemuliaannya."
+            },
+            {
+                q: "Rasul juga merasa lapar, mengantuk, dan sakit. Hal ini menandakan bahwa Rasul memiliki sifat...",
+                options: ["Mustahil", "Wajib", "Jaiz (Kemanusiaan)", "Malaikat"],
+                ans: 2,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Lapar dan sakit adalah bagian dari Sifat Jaiz (sifat kemanusiaan) bagi Nabi dan Rasul."
+            },
+            {
+                q: "Mengapa para Rasul TIDAK MUNGKIN memiliki sifat Kitman (menyembunyikan wahyu)?",
+                options: [
+                    "Karena Rasul takut dihukum Firaun",
+                    "Karena Allah memerintahkan untuk menyampaikan wahyu secara sempurna",
+                    "Karena wahyu itu rahasia pribadi",
+                    "Karena manusia sudah pintar"
+                ],
+                ans: 1,
+                cat: "Sifat Mustahil Nabi & Rasul",
+                exp: "Rasul dilindungi Allah dan diperintahkan menyampaikan risalah secara utuh tanpa ada yang dikurangi."
+            }
+        ];
+
+        // --- AUDIO SOUND SYNTHESIS & EFFECTS ---
+        function playSoundEffect(type) {
+            if (!soundEnabled) return;
+            try {
+                let ctx = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = ctx.createOscillator();
+                let gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.3); // A5
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, ctx.currentTime); // A3
+                    osc.frequency.exponentialRampToValueAtTime(110, ctx.currentTime + 0.3); // A2
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'finish') {
+                    // Win fanfare
+                    let notes = [440, 554.37, 659.25, 880];
+                    notes.forEach((freq, i) => {
+                        let noteOsc = ctx.createOscillator();
+                        let noteGain = ctx.createGain();
+                        noteOsc.connect(noteGain);
+                        noteGain.connect(ctx.destination);
+                        noteOsc.frequency.value = freq;
+                        noteGain.gain.setValueAtTime(0.15, ctx.currentTime + (i * 0.12));
+                        noteGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + (i * 0.12) + 0.3);
+                        noteOsc.start(ctx.currentTime + (i * 0.12));
+                        noteOsc.stop(ctx.currentTime + (i * 0.12) + 0.3);
+                    });
+                }
+            } catch (e) {
+                console.log("Audio Web Context error: ", e);
+            }
+        }
+
+        function speakText(text) {
+            if (!soundEnabled || !('speechSynthesis' in window)) return;
+            synth.cancel(); // Stop current speaking
+            let utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'id-ID';
+            utterance.rate = 1.0;
+            utterance.pitch = 1.1;
+            synth.speak(utterance);
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            let icon = document.getElementById('sound-icon');
+            let text = document.getElementById('sound-text');
+            if (soundEnabled) {
+                icon.className = "fa-solid fa-volume-high text-emerald-600";
+                text.innerText = "Suara: ON";
+                speakText("Suara diaktifkan");
+            } else {
+                icon.className = "fa-solid fa-volume-xmark text-slate-400";
+                text.innerText = "Suara: OFF";
+                synth.cancel();
+            }
+        }
+
+        // --- NAVIGATION BETWEEN SCREENS ---
+        function showScreen(screenId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function getStudentNameInput() {
+            let input = document.getElementById('student-name').value.trim();
+            if (!input) {
+                document.getElementById('name-error').classList.remove('hidden');
+                return null;
+            }
+            document.getElementById('name-error').classList.add('hidden');
+            studentName = input;
+            document.getElementById('display-user-name').innerText = studentName;
+            document.getElementById('user-badge').classList.remove('hidden');
+            document.getElementById('user-badge').classList.add('flex');
+            return studentName;
+        }
+
+        function startMaterial() {
+            let name = getStudentNameInput();
+            if (!name) return;
+            showScreen('screen-material');
+            speakText("Selamat datang di materi Aqidah Akhlak, " + name + ". Mari pelajari materi nabi dan rasul dengan seksama!");
+        }
+
+        function startQuizDirectly() {
+            let name = getStudentNameInput();
+            if (!name) return;
+            initQuiz();
+        }
+
+        function startQuizFromMaterial() {
+            if (!studentName) {
+                let name = getStudentNameInput();
+                if (!name) {
+                    showScreen('screen-welcome');
+                    return;
+                }
+            }
+            initQuiz();
+        }
+
+        function confirmReturnToMaterial() {
+            speakText("Kembali ke menu materi pembelajaran.");
+            showScreen('screen-material');
+        }
+
+        // --- MATERIAL TABS HANDLER ---
+        function switchMaterialTab(tabId) {
+            document.querySelectorAll('.material-content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.material-tab-btn').forEach(b => {
+                b.className = "material-tab-btn px-4 py-2 rounded-xl font-bold text-sm bg-white text-slate-600 hover:bg-slate-100";
+            });
+
+            document.getElementById('material-content-' + tabId).classList.remove('hidden');
+            let btn = document.getElementById('tab-btn-' + tabId);
+            btn.className = "material-tab-btn px-4 py-2 rounded-xl font-bold text-sm bg-emerald-600 text-white shadow";
+        }
+
+        function readCurrentMaterialVoice() {
+            let activeTab = Array.from(document.querySelectorAll('.material-content')).find(el => !el.classList.contains('hidden'));
+            if (activeTab) {
+                let title = activeTab.querySelector('h3').innerText;
+                speakText("Materi: " + title + ". Silakan pelajari secara lengkap pada tampilan layar.");
+            }
+        }
+
+        // --- QUIZ GAME LOGIC ---
+        function initQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            userAnswers = [];
+            showScreen('screen-quiz');
+            speakText("Game kuis lima puluh soal dimulai. Semangat ya, " + studentName + "!");
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            let q = quizQuestions[currentQuestionIndex];
+            document.getElementById('quiz-current-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('quiz-score').innerText = score;
+            document.getElementById('quiz-category-tag').innerText = q.cat;
+            document.getElementById('quiz-question-text').innerText = (currentQuestionIndex + 1) + ". " + q.q;
+
+            let progressPct = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress').style.width = progressPct + '%';
+
+            // Reset feedback box & next button
+            document.getElementById('quiz-feedback-box').classList.add('hidden');
+            document.getElementById('btn-next-question').disabled = true;
+
+            // Load options
+            let container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
+
+            let labels = ['A', 'B', 'C', 'D'];
+            q.options.forEach((opt, idx) => {
+                let btn = document.createElement('button');
+                btn.className = "quiz-opt-btn btn-bounce w-full p-4 text-left rounded-2xl border-2 border-slate-200 bg-white hover:border-emerald-400 hover:bg-emerald-50/50 transition flex items-start gap-3 font-semibold text-slate-700 text-sm sm:text-base";
+                btn.onclick = () => selectAnswer(idx);
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 font-extrabold flex items-center justify-center shrink-0 border border-slate-300">
+                        ${labels[idx]}
+                    </span>
+                    <span class="pt-0.5">${opt}</span>
+                `;
+                container.appendChild(btn);
+            });
+
+            // Speak question optional
+            speakCurrentQuestion();
+        }
+
+        function speakCurrentQuestion() {
+            let q = quizQuestions[currentQuestionIndex];
+            speakText("Soal nomor " + (currentQuestionIndex + 1) + ". " + q.q);
+        }
+
+        function selectAnswer(selectedIndex) {
+            let q = quizQuestions[currentQuestionIndex];
+            let buttons = document.querySelectorAll('.quiz-opt-btn');
+
+            // Disable all options once picked
+            buttons.forEach(b => b.onclick = null);
+
+            let isCorrect = (selectedIndex === q.ans);
+            userAnswers.push({ qIndex: currentQuestionIndex, selected: selectedIndex, correct: isCorrect });
+
+            let feedbackBox = document.getElementById('quiz-feedback-box');
+            let feedbackTitle = document.getElementById('feedback-title');
+            let feedbackExp = document.getElementById('feedback-explanation');
+
+            feedbackBox.classList.remove('hidden');
+
+            if (isCorrect) {
+                score += 2; // 2 pts per question = 100 max
+                correctCount++;
+                playSoundEffect('correct');
+                
+                buttons[selectedIndex].className = "quiz-opt-btn w-full p-4 text-left rounded-2xl border-2 border-emerald-500 bg-emerald-100 text-emerald-900 flex items-start gap-3 font-bold text-sm sm:text-base shadow-md";
+                
+                feedbackBox.className = "p-4 rounded-2xl border-2 border-emerald-300 bg-emerald-50 space-y-1 animate-fadeIn";
+                feedbackTitle.className = "flex items-center gap-2 font-extrabold text-emerald-800 text-base";
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-check text-xl text-emerald-600"></i> Jawaban Kamu BENAR, ${studentName}!`;
+                
+                speakText("Hebat sekali " + studentName + ", jawaban kamu benar!");
+            } else {
+                wrongCount++;
+                playSoundEffect('wrong');
+
+                buttons[selectedIndex].className = "quiz-opt-btn w-full p-4 text-left rounded-2xl border-2 border-rose-400 bg-rose-100 text-rose-900 flex items-start gap-3 font-bold text-sm sm:text-base";
+                buttons[q.ans].className = "quiz-opt-btn w-full p-4 text-left rounded-2xl border-2 border-emerald-500 bg-emerald-100 text-emerald-900 flex items-start gap-3 font-bold text-sm sm:text-base shadow-sm";
+
+                feedbackBox.className = "p-4 rounded-2xl border-2 border-rose-300 bg-rose-50 space-y-1 animate-fadeIn";
+                feedbackTitle.className = "flex items-center gap-2 font-extrabold text-rose-800 text-base";
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-xl text-rose-600"></i> Jawaban Kurang Tepat, ${studentName}!`;
+
+                speakText("Jawaban kurang tepat, " + studentName + ". Tetap semangat ya!");
+            }
+
+            feedbackExp.innerText = q.exp;
+            document.getElementById('quiz-score').innerText = score;
+            document.getElementById('btn-next-question').disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            playSoundEffect('finish');
+            showScreen('screen-result');
+
+            // Trigger confetti
+            try {
+                confetti({
+                    particleCount: 120,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            } catch (e) {}
+
+            let finalScore = score; // max 100
+            let predicate = "Sangat Baik";
+            if (finalScore >= 90) predicate = "ISTIMEWA";
+            else if (finalScore >= 75) predicate = "SANGAT BAIK";
+            else if (finalScore >= 60) predicate = "BAIK";
+            else predicate = "CUKUP";
+
+            // Update UI Result
+            document.getElementById('res-name-display').innerText = studentName;
+            document.getElementById('res-score-number').innerText = finalScore;
+            document.getElementById('res-correct-count').innerText = correctCount;
+            document.getElementById('res-wrong-count').innerText = wrongCount;
+            document.getElementById('res-grade-text').innerText = predicate;
+
+            // Update Printable Certificate
+            document.getElementById('cert-student-name').innerText = studentName;
+            document.getElementById('cert-score').innerText = finalScore + " / 100";
+            document.getElementById('cert-predicate').innerText = predicate;
+            
+            let today = new Date();
+            let dateStr = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('cert-date').innerText = dateStr;
+
+            speakText("Selamat " + studentName + "! Kamu berhasil menyelesaikan lima puluh soal kuis dengan nilai " + finalScore + ". Predikat kamu adalah " + predicate + "!");
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+        function printCertificate() {
+            speakText("Mencetak sertifikat untuk " + studentName);
+            window.print();
+        }
+
+        // Init on load
+        window.onload = function() {
+            console.log("Aqidah Akhlak Game Initialized - Giga Innovation");
+        };
+    </script>
+</body>
+</html>
